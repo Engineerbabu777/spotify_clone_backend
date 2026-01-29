@@ -8,7 +8,7 @@ from fastapi import APIRouter
 from sqlalchemy.orm import Session
 router = APIRouter()
 
-@router.post("/signup")
+@router.post("/signup", status_code=201)
 def signup_user(user:UserCreate, db:Session = Depends(get_db)):
 
     user_db = db.query(User).filter(User.email == user.email).first()
@@ -40,7 +40,7 @@ def signin_user(user:UserLogin,db:Session = Depends(get_db)):
 
     # IF NO THROW ERROR!
     if not compare_pass:
-        raise HTTPException(404,"Invalid credentials!")
+        raise HTTPException(400,"Invalid credentials!")
 
     # ELSE RETURN THE USER!
     return user_db

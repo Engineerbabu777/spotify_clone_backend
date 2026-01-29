@@ -244,7 +244,7 @@
         "kind": 5,
         "importPath": "routes.auth",
         "description": "routes.auth",
-        "peekOfCode": "router = APIRouter()\n@router.post(\"/signup\")\ndef signup_user(user:UserCreate, db:Session = Depends(get_db)):\n    user_db = db.query(User).filter(User.email == user.email).first()\n    if user_db:\n        raise HTTPException(400,'User with same email already exists')\n    hashed_pw = bcrypt.hashpw(user.password.encode(), bcrypt.gensalt(16))\n    new_user = User(id=str(uuid.uuid4()),email=user.email,password=hashed_pw,name=user.name)\n    db.add(new_user)\n    db.commit()",
+        "peekOfCode": "router = APIRouter()\n@router.post(\"/signup\", status_code=201)\ndef signup_user(user:UserCreate, db:Session = Depends(get_db)):\n    user_db = db.query(User).filter(User.email == user.email).first()\n    if user_db:\n        raise HTTPException(400,'User with same email already exists')\n    hashed_pw = bcrypt.hashpw(user.password.encode(), bcrypt.gensalt(16))\n    new_user = User(id=str(uuid.uuid4()),email=user.email,password=hashed_pw,name=user.name)\n    db.add(new_user)\n    db.commit()",
         "detail": "routes.auth",
         "documentation": {}
     },
