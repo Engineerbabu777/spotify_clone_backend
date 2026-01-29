@@ -24,3 +24,8 @@ def signup_user(user:UserCreate, db:Session = Depends(get_db)):
     db.refresh(new_user)
 
     return new_user
+
+
+@router.post("/login")
+def signin_user():
+    pass

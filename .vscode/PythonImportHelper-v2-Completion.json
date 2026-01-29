@@ -200,7 +200,16 @@
         "kind": 6,
         "importPath": "pydatic_schemas.user_create",
         "description": "pydatic_schemas.user_create",
-        "peekOfCode": "class UserCreate(BaseModel):\n    name: str \n    email: str \n    password: str",
+        "peekOfCode": "class UserCreate(BaseModel):\n    name: str \n    email: str \n    password: str\nclass LoginUser(BaseModel):\n    email: str\n    password: str",
+        "detail": "pydatic_schemas.user_create",
+        "documentation": {}
+    },
+    {
+        "label": "LoginUser",
+        "kind": 6,
+        "importPath": "pydatic_schemas.user_create",
+        "description": "pydatic_schemas.user_create",
+        "peekOfCode": "class LoginUser(BaseModel):\n    email: str\n    password: str",
         "detail": "pydatic_schemas.user_create",
         "documentation": {}
     },
@@ -210,6 +219,15 @@
         "importPath": "routes.auth",
         "description": "routes.auth",
         "peekOfCode": "def signup_user(user:UserCreate, db:Session = Depends(get_db)):\n    user_db = db.query(User).filter(User.email == user.email).first()\n    if user_db:\n        raise HTTPException(400,'User with same email already exists')\n    hashed_pw = bcrypt.hashpw(user.password.encode(), bcrypt.gensalt(16))\n    new_user = User(id=str(uuid.uuid4()),email=user.email,password=hashed_pw,name=user.name)\n    db.add(new_user)\n    db.commit()\n    db.refresh(new_user)\n    return new_user",
+        "detail": "routes.auth",
+        "documentation": {}
+    },
+    {
+        "label": "signin_user",
+        "kind": 2,
+        "importPath": "routes.auth",
+        "description": "routes.auth",
+        "peekOfCode": "def signin_user():\n    pass",
         "detail": "routes.auth",
         "documentation": {}
     },
