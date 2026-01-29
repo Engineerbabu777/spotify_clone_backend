@@ -65,6 +65,14 @@
         "documentation": {}
     },
     {
+        "label": "LoginUser",
+        "importPath": "pydatic_schemas.user_create",
+        "description": "pydatic_schemas.user_create",
+        "isExtraImport": true,
+        "detail": "pydatic_schemas.user_create",
+        "documentation": {}
+    },
+    {
         "label": "UserCreate",
         "importPath": "pydatic_schemas.user_create",
         "description": "pydatic_schemas.user_create",
@@ -227,7 +235,7 @@
         "kind": 2,
         "importPath": "routes.auth",
         "description": "routes.auth",
-        "peekOfCode": "def signin_user():\n    pass",
+        "peekOfCode": "def signin_user(user:LoginUser,db:Session = Depends(get_db)):\n    # FIND USER!\n    user_db = db.query(User).filter(User.email == user.email).first() \n    # IF NO USER EROR TROW!\n    if not user_db:\n        raise HTTPException(404,\"User not found!\")\n    # IF USER VALIDATE CREDENTIALS!\n    compare_pass = bcrypt.checkpw(user.password.encode(), user_db.password)\n    # IF NO THROW ERROR!\n    if not compare_pass:",
         "detail": "routes.auth",
         "documentation": {}
     },
