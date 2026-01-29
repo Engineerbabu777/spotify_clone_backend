@@ -73,15 +73,7 @@
         "documentation": {}
     },
     {
-        "label": "app",
-        "importPath": "main",
-        "description": "main",
-        "isExtraImport": true,
-        "detail": "main",
-        "documentation": {}
-    },
-    {
-        "label": "db",
+        "label": "get_db",
         "importPath": "database",
         "description": "database",
         "isExtraImport": true,
@@ -106,6 +98,14 @@
     },
     {
         "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Depends",
         "importPath": "fastapi",
         "description": "fastapi",
         "isExtraImport": true,
@@ -143,6 +143,14 @@
         "importPath": "uuid",
         "description": "uuid",
         "detail": "uuid",
+        "documentation": {}
+    },
+    {
+        "label": "Session",
+        "importPath": "sqlalchemy.orm",
+        "description": "sqlalchemy.orm",
+        "isExtraImport": true,
+        "detail": "sqlalchemy.orm",
         "documentation": {}
     },
     {
@@ -201,7 +209,7 @@
         "kind": 2,
         "importPath": "routes.auth",
         "description": "routes.auth",
-        "peekOfCode": "def signup_user(user:UserCreate):\n    user_db = db.query(User).filter(User.email == user.email).first()\n    if user_db:\n        raise HTTPException(400,'User with same email already exists')\n    hashed_pw = bcrypt.hashpw(user.password.encode(), bcrypt.gensalt(16))\n    new_user = User(id=str(uuid.uuid4()),email=user.email,password=hashed_pw,name=user.name)\n    db.add(new_user)\n    db.commit()\n    db.refresh(new_user)\n    return new_user",
+        "peekOfCode": "def signup_user(user:UserCreate, db:Session = Depends(get_db)):\n    user_db = db.query(User).filter(User.email == user.email).first()\n    if user_db:\n        raise HTTPException(400,'User with same email already exists')\n    hashed_pw = bcrypt.hashpw(user.password.encode(), bcrypt.gensalt(16))\n    new_user = User(id=str(uuid.uuid4()),email=user.email,password=hashed_pw,name=user.name)\n    db.add(new_user)\n    db.commit()\n    db.refresh(new_user)\n    return new_user",
         "detail": "routes.auth",
         "documentation": {}
     },
@@ -210,8 +218,17 @@
         "kind": 5,
         "importPath": "routes.auth",
         "description": "routes.auth",
-        "peekOfCode": "router = APIRouter()\n@router.post(\"/signup\")\ndef signup_user(user:UserCreate):\n    user_db = db.query(User).filter(User.email == user.email).first()\n    if user_db:\n        raise HTTPException(400,'User with same email already exists')\n    hashed_pw = bcrypt.hashpw(user.password.encode(), bcrypt.gensalt(16))\n    new_user = User(id=str(uuid.uuid4()),email=user.email,password=hashed_pw,name=user.name)\n    db.add(new_user)\n    db.commit()",
+        "peekOfCode": "router = APIRouter()\n@router.post(\"/signup\")\ndef signup_user(user:UserCreate, db:Session = Depends(get_db)):\n    user_db = db.query(User).filter(User.email == user.email).first()\n    if user_db:\n        raise HTTPException(400,'User with same email already exists')\n    hashed_pw = bcrypt.hashpw(user.password.encode(), bcrypt.gensalt(16))\n    new_user = User(id=str(uuid.uuid4()),email=user.email,password=hashed_pw,name=user.name)\n    db.add(new_user)\n    db.commit()",
         "detail": "routes.auth",
+        "documentation": {}
+    },
+    {
+        "label": "get_db",
+        "kind": 2,
+        "importPath": "database",
+        "description": "database",
+        "peekOfCode": "def get_db():\n    db = SessionLocal()\n    try:\n        yield db \n    finally:\n        db.close()",
+        "detail": "database",
         "documentation": {}
     },
     {
@@ -219,7 +236,7 @@
         "kind": 5,
         "importPath": "database",
         "description": "database",
-        "peekOfCode": "DATABASE_URL = \"postgresql://postgres:POSTGRESQL%40123%2E@localhost:5432/flutter_music_app\"\nengine = create_engine(DATABASE_URL)\nSessionLocal = sessionmaker(autocommit=False,autoflush=False,bind=engine)\ndb = SessionLocal()",
+        "peekOfCode": "DATABASE_URL = \"postgresql://postgres:POSTGRESQL%40123%2E@localhost:5432/flutter_music_app\"\nengine = create_engine(DATABASE_URL)\nSessionLocal = sessionmaker(autocommit=False,autoflush=False,bind=engine)\ndef get_db():\n    db = SessionLocal()\n    try:\n        yield db \n    finally:\n        db.close()",
         "detail": "database",
         "documentation": {}
     },
@@ -228,7 +245,7 @@
         "kind": 5,
         "importPath": "database",
         "description": "database",
-        "peekOfCode": "engine = create_engine(DATABASE_URL)\nSessionLocal = sessionmaker(autocommit=False,autoflush=False,bind=engine)\ndb = SessionLocal()",
+        "peekOfCode": "engine = create_engine(DATABASE_URL)\nSessionLocal = sessionmaker(autocommit=False,autoflush=False,bind=engine)\ndef get_db():\n    db = SessionLocal()\n    try:\n        yield db \n    finally:\n        db.close()",
         "detail": "database",
         "documentation": {}
     },
@@ -237,16 +254,7 @@
         "kind": 5,
         "importPath": "database",
         "description": "database",
-        "peekOfCode": "SessionLocal = sessionmaker(autocommit=False,autoflush=False,bind=engine)\ndb = SessionLocal()",
-        "detail": "database",
-        "documentation": {}
-    },
-    {
-        "label": "db",
-        "kind": 5,
-        "importPath": "database",
-        "description": "database",
-        "peekOfCode": "db = SessionLocal()",
+        "peekOfCode": "SessionLocal = sessionmaker(autocommit=False,autoflush=False,bind=engine)\ndef get_db():\n    db = SessionLocal()\n    try:\n        yield db \n    finally:\n        db.close()",
         "detail": "database",
         "documentation": {}
     },

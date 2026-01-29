@@ -1,16 +1,15 @@
 import bcrypt
 from pydatic_schemas.user_create import UserCreate
-from main import app
-from database import db
+from database import get_db
 from models.user import User
-from fastapi import HTTPException
+from fastapi import HTTPException,Depends
 import uuid
 from fastapi import APIRouter
-
+from sqlalchemy.orm import Session
 router = APIRouter()
 
 @router.post("/signup")
-def signup_user(user:UserCreate):
+def signup_user(user:UserCreate, db:Session = Depends(get_db)):
 
     user_db = db.query(User).filter(User.email == user.email).first()
 

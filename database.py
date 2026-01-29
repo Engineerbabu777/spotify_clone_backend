@@ -8,4 +8,10 @@ DATABASE_URL = "postgresql://postgres:POSTGRESQL%40123%2E@localhost:5432/flutter
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False,autoflush=False,bind=engine)
 
-db = SessionLocal()
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db 
+    finally:
+        db.close()
