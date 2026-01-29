@@ -65,7 +65,7 @@
         "documentation": {}
     },
     {
-        "label": "LoginUser",
+        "label": "UserLogin",
         "importPath": "pydatic_schemas.user_create",
         "description": "pydatic_schemas.user_create",
         "isExtraImport": true,
@@ -208,16 +208,16 @@
         "kind": 6,
         "importPath": "pydatic_schemas.user_create",
         "description": "pydatic_schemas.user_create",
-        "peekOfCode": "class UserCreate(BaseModel):\n    name: str \n    email: str \n    password: str\nclass LoginUser(BaseModel):\n    email: str\n    password: str",
+        "peekOfCode": "class UserCreate(BaseModel):\n    name: str \n    email: str \n    password: str\nclass UserLogin(BaseModel):\n    email: str\n    password: str",
         "detail": "pydatic_schemas.user_create",
         "documentation": {}
     },
     {
-        "label": "LoginUser",
+        "label": "UserLogin",
         "kind": 6,
         "importPath": "pydatic_schemas.user_create",
         "description": "pydatic_schemas.user_create",
-        "peekOfCode": "class LoginUser(BaseModel):\n    email: str\n    password: str",
+        "peekOfCode": "class UserLogin(BaseModel):\n    email: str\n    password: str",
         "detail": "pydatic_schemas.user_create",
         "documentation": {}
     },
@@ -235,7 +235,7 @@
         "kind": 2,
         "importPath": "routes.auth",
         "description": "routes.auth",
-        "peekOfCode": "def signin_user(user:LoginUser,db:Session = Depends(get_db)):\n    # FIND USER!\n    user_db = db.query(User).filter(User.email == user.email).first() \n    # IF NO USER EROR TROW!\n    if not user_db:\n        raise HTTPException(404,\"User not found!\")\n    # IF USER VALIDATE CREDENTIALS!\n    compare_pass = bcrypt.checkpw(user.password.encode(), user_db.password)\n    # IF NO THROW ERROR!\n    if not compare_pass:",
+        "peekOfCode": "def signin_user(user:UserLogin,db:Session = Depends(get_db)):\n    # FIND USER!\n    user_db = db.query(User).filter(User.email == user.email).first() \n    # IF NO USER EROR TROW!\n    if not user_db:\n        raise HTTPException(404,\"User not found!\")\n    # IF USER VALIDATE CREDENTIALS!\n    compare_pass = bcrypt.checkpw(user.password.encode(), user_db.password)\n    # IF NO THROW ERROR!\n    if not compare_pass:",
         "detail": "routes.auth",
         "documentation": {}
     },

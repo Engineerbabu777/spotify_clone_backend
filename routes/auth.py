@@ -1,5 +1,5 @@
 import bcrypt
-from pydatic_schemas.user_create import LoginUser, UserCreate
+from pydatic_schemas.user_create import UserLogin, UserCreate
 from database import get_db
 from models.user import User
 from fastapi import HTTPException,Depends
@@ -26,8 +26,8 @@ def signup_user(user:UserCreate, db:Session = Depends(get_db)):
     return new_user
 
 
-@router.post("/login",)
-def signin_user(user:LoginUser,db:Session = Depends(get_db)):
+@router.post("/login")
+def signin_user(user:UserLogin,db:Session = Depends(get_db)):
     # FIND USER!
     user_db = db.query(User).filter(User.email == user.email).first() 
 
