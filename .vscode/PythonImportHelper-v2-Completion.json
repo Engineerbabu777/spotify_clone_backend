@@ -170,6 +170,15 @@
         "documentation": {}
     },
     {
+        "label": "jwt",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "jwt",
+        "description": "jwt",
+        "detail": "jwt",
+        "documentation": {}
+    },
+    {
         "label": "Base",
         "importPath": "models.base",
         "description": "models.base",

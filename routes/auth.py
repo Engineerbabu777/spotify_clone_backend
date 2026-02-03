@@ -6,6 +6,8 @@ from fastapi import HTTPException,Depends
 import uuid
 from fastapi import APIRouter
 from sqlalchemy.orm import Session
+import jwt
+
 router = APIRouter()
 
 @router.post("/signup", status_code=201)
@@ -41,6 +43,8 @@ def signin_user(user:UserLogin,db:Session = Depends(get_db)):
     # IF NO THROW ERROR!
     if not compare_pass:
         raise HTTPException(400,"Invalid credentials!")
+    
+    token = jwt.encode({'id':user_db.id}, 'password_key')
 
     # ELSE RETURN THE USER!
-    return user_db
+    return {'token':token, 'user':user_db}
