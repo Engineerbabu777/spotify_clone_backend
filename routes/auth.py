@@ -7,6 +7,7 @@ import uuid
 from fastapi import APIRouter
 from sqlalchemy.orm import Session
 import jwt
+from middleware.auth_middleware import auth_middleware
 
 router = APIRouter()
 
@@ -50,23 +51,9 @@ def signin_user(user:UserLogin,db:Session = Depends(get_db)):
     return {'token':token, 'user':user_db}
 
 @router.get("/")
-def current_user_data(x_auth_token:str = Header(), db:Session=Depends(get_db)):
-   try:
-        # TOKEN FROM HEADER!
-    if not x_auth_token:
-        raise HTTPException(401,"No auth token, access denied")
-
-    # DECODE TOKEN!
-    verified_token = jwt.decode(x_auth_token, 'password_key', algorithms=['HS256'])
-
-    if not verified_token:
-        raise HTTPException(401, "Token verification failed, authorization error")
-
-    # GET ID FROM TOKEN
-    userId = verified_token.get("id")
-
+def current_user_data(db:Session=Depends(get_db), user_dict = Depends(auth_middleware)):
     # GET DATA USER AND RETURN!
-    user_db = db.query(User).filter(User.id == userId).first()
+    user_db = db.query(User).filter(User.id == user_dict["user_id"]).first()
 
     if not user_db:
          raise HTTPException(404, "User not found")

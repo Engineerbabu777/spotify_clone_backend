@@ -28,7 +28,7 @@ def auth_middleware(x_auth_token:str = Header(), db:Session=Depends(get_db)):
        if not user_db:
          raise HTTPException(404, "User not found")
       
-       return {"token":x_auth_token, 'user':user_db}
+       return {"token":x_auth_token, 'user_id':userId}
     
     except jwt.PyJWTError:
        raise HTTPException(401, "Token is not valid, authorization failed")

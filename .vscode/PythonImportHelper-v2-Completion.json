@@ -244,6 +244,14 @@
         "documentation": {}
     },
     {
+        "label": "auth_middleware",
+        "importPath": "middleware.auth_middleware",
+        "description": "middleware.auth_middleware",
+        "isExtraImport": true,
+        "detail": "middleware.auth_middleware",
+        "documentation": {}
+    },
+    {
         "label": "Base",
         "importPath": "models.base",
         "description": "models.base",
@@ -327,7 +335,7 @@
         "kind": 2,
         "importPath": "routes.auth",
         "description": "routes.auth",
-        "peekOfCode": "def current_user_data(x_auth_token:str = Header(), db:Session=Depends(get_db)):\n   try:\n        # TOKEN FROM HEADER!\n    if not x_auth_token:\n        raise HTTPException(401,\"No auth token, access denied\")\n    # DECODE TOKEN!\n    verified_token = jwt.decode(x_auth_token, 'password_key', algorithms=['HS256'])\n    if not verified_token:\n        raise HTTPException(401, \"Token verification failed, authorization error\")\n    # GET ID FROM TOKEN",
+        "peekOfCode": "def current_user_data(db:Session=Depends(get_db), user_dict = Depends(auth_middleware)):\n    # GET DATA USER AND RETURN!\n    user_db = db.query(User).filter(User.id == user_dict[\"user_id\"]).first()\n    if not user_db:\n         raise HTTPException(404, \"User not found\")\n    return {\"user\":user_db}",
         "detail": "routes.auth",
         "documentation": {}
     },
