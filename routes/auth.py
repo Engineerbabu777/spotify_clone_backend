@@ -73,5 +73,4 @@ def current_user_data(x_auth_token:str = Header(), db:Session=Depends(get_db)):
 
     return {"user":user_db}
        
-   except jwt.PyJWTError:
-       raise HTTPException(401, "Token is not valid, authorization failed")
+ 
